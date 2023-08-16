@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap");
+
+.width {
+  width: 328px;
+}
+
+.backgroundChats {
+  background-color: #2b2d31;
+  font-weight: 200;
+  font-family: "Nunito", sans-serif;
+}
+.chatsNav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}

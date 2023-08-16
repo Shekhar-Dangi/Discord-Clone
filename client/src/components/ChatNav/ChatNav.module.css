@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 20px 0 20px;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid black;
+}
+
+.c1 {
+  text-align: left;
+  flex: 1;
+}
+
+.c2 {
+  flex: 0.4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.c2 i:hover {
+  cursor: pointer;
+}
+
+.setSearch {
+  position: absolute;
+  font-size: 10px;
+  right: 28px;
+}

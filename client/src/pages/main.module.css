@@ -1,0 +1,11 @@
+.makeFlex {
+  display: flex;
+}
+
+.flexDirectionRow {
+  flex-direction: row;
+}
+
+.h100vh {
+  height: 100vh;
+}

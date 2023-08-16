@@ -1,0 +1,32 @@
+.icon {
+  width: 80%;
+  margin: 15px auto;
+  text-align: center;
+  padding: 13px;
+  border-radius: 50%;
+  transition: border-radius 0.4s ease-in-out;
+}
+
+.backBlue {
+  background-color: blue;
+}
+
+.colWhite {
+  color: white;
+}
+
+.icon:hover {
+  border-radius: 30%;
+  cursor: pointer;
+  background-color: blue;
+}
+
+.server {
+  background-color: #313338;
+  color: white;
+  padding: 15px;
+}
+
+.borderBottom {
+  border-bottom: 1px solid grey;
+}

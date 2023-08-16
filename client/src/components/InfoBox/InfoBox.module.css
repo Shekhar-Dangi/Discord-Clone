@@ -1,0 +1,30 @@
+.info {
+  color: white;
+  font-size: 19px;
+  text-align: left;
+  padding: 13px;
+  margin: 7px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.info:hover {
+  background-color: #35373d;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+i {
+  margin: 0 10px;
+}
+
+.online {
+  position: absolute;
+  color: green;
+  font-size: 11px;
+  border: 4px solid #35373d;
+  border-radius: 50%;
+  left: 30px;
+  top: 35px;
+}
