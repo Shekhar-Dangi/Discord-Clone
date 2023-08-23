@@ -20,3 +20,15 @@
   margin: 0 5px;
   position: relative;
 }
+
+.active {
+  background-color: #0000ff;
+}
+
+.notActive {
+  background-color: #313338;
+}
+
+a {
+  text-decoration: none;
+}

@@ -1,19 +1,51 @@
+import { useEffect, useState } from "react";
 import InfoBox from "../../components/InfoBox/InfoBox";
 import InputBox from "../../components/InputBox/InputBox";
 import stylesNav from "./ChatsNav.module.css";
+import { NavLink, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function ChatsNav() {
+  const { id } = useParams();
+  const [disData, setDisData] = useState([]);
+  const [url, setUrl] = useState("");
+  // const [friends, setFriends] = useState([]);
+  const fetchChannels = async () => {
+    if (id !== "dm") {
+      const response = await axios.get(
+        `http://localhost:8000/api/guilds/${id}/channels`
+      );
+      setDisData(response.data);
+      console.log(response.data);
+      setUrl(`channels/`);
+    } else {
+      const response = await axios.get(
+        `http://localhost:8000/api/members/64e0ded3f34ea84436cb8d0e`
+      );
+      console.log(response);
+      setDisData(response.data.friends);
+      setUrl(``);
+    }
+  };
+
+  useEffect(() => {
+    fetchChannels();
+  }, [id]);
+
   return (
     <>
       <div
         className={`${stylesNav.width} ${stylesNav.backgroundChats} ${stylesNav.chatsNav}`}
       >
-        <InputBox placeholder="Find or start a conversation" />
-        <InfoBox avatar="fa-solid fa-user-group" text="Student" />
-        <InfoBox
-          url="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80"
-          text="Random"
-        />
+        {disData.map((data) => (
+          <NavLink to={`${url}${data._id}`}>
+            <InfoBox
+              avatar="fa-solid fa-hashtag"
+              url={id === "dm" ? data.avatar : null}
+              text={data.name || data.username}
+            />
+          </NavLink>
+        ))}
       </div>
     </>
   );

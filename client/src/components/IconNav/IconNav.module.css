@@ -5,6 +5,7 @@
   padding: 13px;
   border-radius: 50%;
   transition: border-radius 0.4s ease-in-out;
+  background-color: inherit;
 }
 
 .backBlue {
@@ -22,7 +23,7 @@
 }
 
 .server {
-  background-color: #313338;
+  background-color: inherit;
   color: white;
   padding: 15px;
 }

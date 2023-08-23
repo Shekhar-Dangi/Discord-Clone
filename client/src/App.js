@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import "./App.css";
 import ChatBox from "./pages/ChatBox/ChatBox";
 import ChatsNav from "./pages/ChatsNav/ChatsNav";
@@ -9,8 +10,7 @@ function App() {
   return (
     <div className={containerClasses}>
       <QuickNav />
-      <ChatsNav />
-      <ChatBox />
+      <Outlet />
     </div>
   );
 }
