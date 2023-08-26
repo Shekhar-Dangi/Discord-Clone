@@ -5,11 +5,19 @@ const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 const app = express();
+
 app.use(express.json());
 dotenv.config();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("check");
 });

@@ -2,15 +2,19 @@ import IconNav from "../../components/IconNav/IconNav";
 import styles from "../main.module.css";
 import stylesNav from "./QuickNav.module.css";
 import { useEffect, useState } from "react";
+import getUser from "../../user-local";
 
-import axios from "axios";
+import axiosInstance from "../../axios-config";
 import { NavLink, useParams } from "react-router-dom";
 export default function QuickNav() {
+  const user = getUser;
+  console.log(user);
   const [data, setData] = useState([]);
   async function fetchData() {
-    const servers = await axios.get("http://localhost:8000/api/guilds");
-
-    setData(servers.data);
+    if ("_id" in user) {
+      const servers = await axiosInstance.get(`/api/guilds/${user._id}`);
+      setData(servers.data.servers);
+    }
   }
   console.log("data", data);
   useEffect(() => {

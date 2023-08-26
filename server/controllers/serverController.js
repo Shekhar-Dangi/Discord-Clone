@@ -1,13 +1,20 @@
 const Server = require("../models/Server");
+const User = require("../models/User");
 
 const getServers = async (req, res) => {
   try {
-    const servers = await Server.find();
-    res.status(200).json(servers);
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    console.log(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const servers = await Server.find({ members: { $in: [userId] } });
+    res.json({ servers });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to retrieve servers", error: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
