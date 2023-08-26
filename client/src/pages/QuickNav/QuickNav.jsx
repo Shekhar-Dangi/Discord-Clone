@@ -6,12 +6,10 @@ import getUser from "../../user-local";
 
 import axiosInstance from "../../axios-config";
 import { NavLink, useParams } from "react-router-dom";
-export default function QuickNav() {
-  const user = getUser;
-  console.log(user);
+export default function QuickNav({ user }) {
   const [data, setData] = useState([]);
   async function fetchData() {
-    if ("_id" in user) {
+    if (user && "_id" in user) {
       const servers = await axiosInstance.get(`/api/guilds/${user._id}`);
       setData(servers.data.servers);
     }

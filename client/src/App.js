@@ -31,18 +31,18 @@ function App() {
       let user = null;
       if (!cookies.token) {
         setAuth(false);
+        localStorage.removeItem("user");
       }
       try {
         if ("token" in cookies) {
           const { data } = await axiosInstance.get(`/authUser`);
           if (data.status === true) {
-            setAuth(true); // Set authentication to true if valid token
+            setAuth(true);
             const user = await jwtDecode(cookies.token);
             console.log(user);
             const res = await axiosInstance.get(`/api/members/${user.id}`);
             setUserM(res.data);
             localStorage.setItem("user", JSON.stringify(res.data));
-            console.log("user", res.data);
           } else {
             setAuth(false);
           }

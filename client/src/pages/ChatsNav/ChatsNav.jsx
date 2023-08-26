@@ -6,8 +6,7 @@ import { NavLink, useParams } from "react-router-dom";
 import axiosInstance from "../../axios-config";
 import getUser from "../../user-local";
 
-export default function ChatsNav({}) {
-  const user = getUser;
+export default function ChatsNav({ user }) {
   const { id } = useParams();
   const [disData, setDisData] = useState([]);
   const [url, setUrl] = useState("");
@@ -19,7 +18,8 @@ export default function ChatsNav({}) {
       console.log(response.data);
       setUrl(`channels/`);
     } else {
-      if ("_id" in user) {
+      console.log(user, "fs");
+      if (!!user && "_id" in user) {
         const response = await axiosInstance.get(`/api/members/${user._id}`);
         console.log("friends", response);
         setDisData(response.data.friends);
@@ -29,7 +29,6 @@ export default function ChatsNav({}) {
   };
 
   useEffect(() => {
-    console.log("here", user);
     fetchChannels();
   }, []);
 
