@@ -11,13 +11,14 @@ export default function QuickNav({ user }) {
   async function fetchData() {
     if (user && "_id" in user) {
       const servers = await axiosInstance.get(`/api/guilds/${user._id}`);
+      console.log(user._id, servers);
       setData(servers.data.servers);
     }
   }
-  console.log("data", data);
+  console.log(user);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [user]);
 
   return (
     <>

@@ -9,8 +9,9 @@ const getServers = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    const servers = await Server.find({ members: { $in: [userId] } });
+    console.log(user);
+    const servers = await Server.find({ members: { $in: userId } }).exec();
+    console.log(servers);
     res.json({ servers });
   } catch (error) {
     console.error(error);

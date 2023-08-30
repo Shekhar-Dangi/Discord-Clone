@@ -43,6 +43,7 @@ export default function AuthL({ isAuthenticate }) {
       }
       window.location.reload();
     } catch (error) {
+      console.log(error);
       setError(error);
     }
   };
@@ -77,7 +78,7 @@ export default function AuthL({ isAuthenticate }) {
           }}
           required
         />
-        <p>{error}</p>
+
         <button className={styles.authBtn} type="submit">
           Login
         </button>

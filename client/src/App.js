@@ -3,12 +3,7 @@ import ChatBox from "./pages/ChatBox/ChatBox";
 import ChatsNav from "./pages/ChatsNav/ChatsNav";
 import QuickNav from "./pages/QuickNav/QuickNav";
 import styles from "./pages/main.module.css";
-import {
-  createBrowserRouter,
-  BrowserRouter,
-  Outlet,
-  RouterProvider,
-} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import jwt from "jwt-decode";
 import axiosInstance from "./axios-config.js";
@@ -17,21 +12,18 @@ import { useEffect, useState } from "react";
 import AuthL from "./pages/Auth/AuthL";
 import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 import jwtDecode from "jwt-decode";
-import axios from "axios";
 
 function App() {
-  const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
   const [isAuthenticate, setAuth] = useState(!!cookies);
   const [userM, setUserM] = useState({});
   const containerClasses = `${styles.flexDirectionRow} ${styles.makeFlex} ${styles.h100vh} mainContainer`;
+
   useEffect(() => {
     const verifyCookie = async () => {
-      console.log(cookies);
       let user = null;
       if (!cookies.token) {
         setAuth(false);
-        localStorage.removeItem("user");
       }
       try {
         if ("token" in cookies) {
@@ -42,7 +34,6 @@ function App() {
             console.log(user);
             const res = await axiosInstance.get(`/api/members/${user.id}`);
             setUserM(res.data);
-            localStorage.setItem("user", JSON.stringify(res.data));
           } else {
             setAuth(false);
           }
@@ -56,8 +47,9 @@ function App() {
         setAuth(true);
       }
     };
+
     verifyCookie();
-  }, []);
+  }, [cookies]);
 
   return (
     <Routes>

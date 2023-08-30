@@ -5,12 +5,14 @@ import stylesNav from "./ChatsNav.module.css";
 import { NavLink, useParams } from "react-router-dom";
 import axiosInstance from "../../axios-config";
 import getUser from "../../user-local";
+import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
 
 export default function ChatsNav({ user }) {
+  const defaultAvatar =
+    "https://img.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg?w=1480&t=st=1693148486~exp=1693149086~hmac=19c31c3babe6136a9b3de98f67b301e5f68bda89a093e5f54abeb211e5b6bfcd";
   const { id } = useParams();
   const [disData, setDisData] = useState([]);
   const [url, setUrl] = useState("");
-  // const [friends, setFriends] = useState([]);
   const fetchChannels = async () => {
     if (id !== "dm") {
       const response = await axiosInstance.get(`/api/guilds/${id}/channels`);
@@ -30,23 +32,29 @@ export default function ChatsNav({ user }) {
 
   useEffect(() => {
     fetchChannels();
-  }, []);
+  }, [id, user]);
 
   return (
     <>
       <div
         className={`${stylesNav.width} ${stylesNav.backgroundChats} ${stylesNav.chatsNav}`}
       >
-        {disData.map((data) => (
-          <NavLink key={data._id} to={`${url}${data._id}`}>
-            <InfoBox
-              id={data._id}
-              avatar="fa-solid fa-hashtag"
-              url={id === "dm" ? data.avatar : null}
-              text={data.name || data.username}
-            />
-          </NavLink>
-        ))}
+        <div>
+          {disData.map((data) => (
+            <NavLink key={data._id} to={`${url}${data._id}`}>
+              <InfoBox
+                id={data._id}
+                avatar="fa-solid fa-hashtag"
+                url={id === "dm" ? data.avatar : null}
+                text={data.name || data.username}
+              />
+            </NavLink>
+          ))}
+        </div>
+        <ProfileHeader
+          username={user.username}
+          avatar={"avatar" in user ? user.avatar : defaultAvatar}
+        />
       </div>
     </>
   );

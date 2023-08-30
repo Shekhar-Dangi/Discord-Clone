@@ -2,12 +2,52 @@ const express = require("express");
 const router = require("./router");
 const PORT = 8000;
 const cors = require("cors");
-const MongoClient = require("mongodb").MongoClient;
+
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
 const cookieParser = require("cookie-parser");
+const Message = require("./models/Message");
 
 const app = express();
+
+const http = require("http").Server(app);
+
+const socketIO = require("socket.io")(http, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+socketIO.on("connection", (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on("joinRoom", (roomName) => {
+    socket.join(roomName);
+    console.log(`Socket ${socket.id} joined room ${roomName}`);
+  });
+  socket.on(
+    "message",
+    async ({ sender, recipientId, content, recipientType }) => {
+      try {
+        const newMessage = new Message({
+          sender,
+          recipientId,
+          content,
+          recipientType,
+        });
+        const savedMessage = await newMessage.save();
+        const populatedMessage = await savedMessage.populate("sender");
+        if (recipientType !== "channel")
+          socket.emit("addMessage", populatedMessage);
+        else socketIO.to(recipientId).emit("addMessage", populatedMessage);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  );
+  socket.on("disconnect", () => {
+    console.log("🔥: A user disconnected");
+  });
+});
 
 app.use(express.json());
 dotenv.config();
@@ -37,6 +77,6 @@ mongoose
     console.log(err);
   });
 
-app.listen(PORT, async () => {
-  console.log(`Server started at Port ${PORT}`);
+http.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
 });

@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #1e1f22;
+  padding: 15px;
+  align-items: center;
+}
+
+.username {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

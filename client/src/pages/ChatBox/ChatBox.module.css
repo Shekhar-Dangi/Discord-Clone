@@ -4,11 +4,16 @@
 
 .backChatBox {
   background-color: #313338;
+  height: 100vh;
 }
-
+.chatMessages {
+  overflow-y: scroll;
+  height: 90%;
+}
 .chatFooter {
   position: absolute;
   bottom: 0;
+
   /* left: 0; */
   width: 80%;
   text-align: center;

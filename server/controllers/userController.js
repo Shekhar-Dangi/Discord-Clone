@@ -24,7 +24,6 @@ const userVerification = (req, res, next) => {
 
 const getLoggedInUser = async (req, res) => {
   const token = req.header("Authorization")?.split(" ")[1];
-  console.log(token);
   if (!token) {
     return res.json({ status: false });
   }
