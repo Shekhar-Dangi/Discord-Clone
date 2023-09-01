@@ -10,12 +10,6 @@
   flex-direction: column;
   margin: 10px;
 }
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
 
 .messageContent {
   flex: 1;

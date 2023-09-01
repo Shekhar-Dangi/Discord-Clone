@@ -69,12 +69,13 @@ export default function ChatBox({ user }) {
     const { socket, disconnect } = socketController();
     if (user && isUser) {
       socket.emit("joinRoom", user._id);
-    } else if (user) {
+    } else {
       socket.emit("joinRoom", params.cId);
     }
     socketInstanceRef.current = socket;
     socket.on("addMessage", async (response) => {
       console.log(response);
+
       setMessages((prevMessages) => [...prevMessages, response]);
       setTimeout(downScroll, 300);
     });

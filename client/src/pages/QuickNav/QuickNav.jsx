@@ -2,7 +2,6 @@ import IconNav from "../../components/IconNav/IconNav";
 import styles from "../main.module.css";
 import stylesNav from "./QuickNav.module.css";
 import { useEffect, useState } from "react";
-import getUser from "../../user-local";
 
 import axiosInstance from "../../axios-config";
 import { NavLink, useParams } from "react-router-dom";

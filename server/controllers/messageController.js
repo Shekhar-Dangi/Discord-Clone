@@ -47,4 +47,40 @@ const loadMessage = async (req, res) => {
   }
 };
 
-module.exports = { addMessage, loadMessage };
+const updateMessage = async (req, res) => {
+  const messageId = req.params.id;
+  const { content } = req.body;
+  try {
+    const updatedMessage = await Message.findByIdAndUpdate(
+      messageId,
+      { content },
+      { new: true }
+    );
+
+    if (!updatedMessage) {
+      return res.status(404).json({ message: "Message not found" });
+    }
+
+    res.json(updatedMessage);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const deleteMessage = async (req, res) => {
+  const messageId = req.params.id;
+  try {
+    const deletedMessage = await Message.findByIdAndRemove(messageId);
+
+    if (!deletedMessage) {
+      return res.status(404).json({ message: "Message not found" });
+    }
+    res.json({ message: "Message deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { addMessage, loadMessage, updateMessage, deleteMessage };

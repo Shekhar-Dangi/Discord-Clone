@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
 const cookieParser = require("cookie-parser");
 const Message = require("./models/Message");
+const User = require("./models/User");
 
 const app = express();
 
@@ -36,20 +37,30 @@ socketIO.on("connection", (socket) => {
         });
         const savedMessage = await newMessage.save();
         const populatedMessage = await savedMessage.populate("sender");
-        if (recipientType !== "channel")
+        if (recipientType !== "channel") {
           socket.emit("addMessage", populatedMessage);
-        else socketIO.to(recipientId).emit("addMessage", populatedMessage);
+          socketIO.to(recipientId).emit("addMessage", populatedMessage);
+          console.log("emitted");
+        } else {
+          socketIO.to(recipientId).emit("addMessage", populatedMessage);
+        }
       } catch (error) {
         console.log(error);
       }
     }
   );
+  socket.on("newRequest", async ({ id, recipientId }) => {
+    console.log(id);
+    const user = await User.findById(id);
+    await socketIO.to(recipientId).emit("addReq", user);
+  });
   socket.on("disconnect", () => {
     console.log("🔥: A user disconnected");
   });
 });
 
 app.use(express.json());
+app.use("/uploads", express.static("../uploads"));
 dotenv.config();
 app.use(
   cors({

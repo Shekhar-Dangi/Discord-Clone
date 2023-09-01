@@ -1,0 +1,65 @@
+.container {
+  background-color: #303338;
+  width: 100%;
+
+  text-transform: uppercase;
+}
+.bContainer {
+  padding: 0 50px;
+}
+.topNav {
+  margin-bottom: 30px;
+  border-bottom: 1px solid black;
+  padding: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+.box {
+  width: 500px;
+  background-color: #1e1f22;
+  padding: 15px;
+  text-transform: capitalize;
+  display: flex;
+  position: absolute;
+  top: 58px;
+  right: 0;
+  flex-direction: column;
+}
+.request {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+}
+
+.btn {
+  width: fit-content;
+  padding: 4px 10px;
+  margin: 0 8px;
+}
+.username {
+  color: #04a7fc;
+  text-transform: lowercase;
+}
+.redBtn {
+  background-color: red;
+}
+
+.redBtn:hover {
+  background-color: rgb(194, 74, 74);
+}
+.desc {
+  margin: 20px 0;
+}
+.imgBack {
+  width: 376px;
+  height: 162px;
+  background-image: url(https://discord.com/assets/b5eb2f7d6b3f8cc9b60be4a5dcf28015.svg);
+  background-size: 100% 100%;
+}
+
+.fixWidth {
+  width: fit-content;
+}

@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import styles from "./Auth.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import AuthS from "./AuthS";
+import Background from "../../components/Background";
 
 export default function AuthL({ isAuthenticate }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [file, setFile] = useState(null);
   const [login, setLogin] = useState(true);
   const navigate = useNavigate();
   const [key, setKey] = useState(1);
@@ -30,76 +30,41 @@ export default function AuthL({ isAuthenticate }) {
           { withCredentials: true }
         );
       } else {
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("email", email);
+        formData.append("avatar", file);
         const { data } = await axios.post(
           "http://localhost:8000/api/members",
+          formData,
           {
-            username,
-            password,
-            email,
-          },
-          { withCredentials: true }
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          }
         );
         console.log(data);
       }
       window.location.reload();
     } catch (error) {
       console.log(error);
-      setError(error);
     }
   };
 
   return login ? (
-    <div className={styles.loginContainer}>
-      <h1>Welcome to Discord Clone</h1>
-      <form onSubmit={handleSubmit} className={styles.loginForm}>
-        <label htmlFor="username">Username:</label>
-        <input
-          className={styles.authInp}
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          placeholder="Enter your username"
-          required
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          className={styles.authInp}
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          required
-        />
-
-        <button className={styles.authBtn} type="submit">
-          Login
-        </button>
-
-        <a
-          className={styles.authBtn}
-          type="button"
-          onClick={(e) => {
-            setLogin(false);
-          }}
-        >
-          New User ? Register
-        </a>
-      </form>
-    </div>
-  ) : (
     <>
-      <div class={styles.loginContainer}>
-        <h1>Create Your Account</h1>
-        <form onSubmit={handleSubmit} class={styles.signupForm}>
-          <label for="username">Username:</label>
+      <Background />
+      <div className={styles.loginContainer}>
+        <h2>Welcome back!</h2>
+        <p className="font14">We are so excited to see you again!</p>
+        <form
+          enctype="multipart/form-data"
+          onSubmit={handleSubmit}
+          className={styles.loginForm}
+        >
+          <label htmlFor="username">
+            Username <span className={styles.asterisk}>*</span>
+          </label>
           <input
             className={styles.authInp}
             type="text"
@@ -112,21 +77,9 @@ export default function AuthL({ isAuthenticate }) {
               setUsername(e.target.value);
             }}
           />
-          <label htmlFor="email">Email:</label>
-          <input
-            className={styles.authInp}
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your Email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            required
-          />
-
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">
+            Password <span className={styles.asterisk}>*</span>
+          </label>
           <input
             className={styles.authInp}
             type="password"
@@ -140,18 +93,101 @@ export default function AuthL({ isAuthenticate }) {
             required
           />
 
-          <button className={styles.authBtn} type="submit">
+          <button className="authBtn" type="submit">
+            Login
+          </button>
+          <p className="font12">
+            Need an account?{" "}
+            <a
+              onClick={() => {
+                setLogin(false);
+              }}
+              className="link"
+            >
+              Register
+            </a>
+          </p>
+        </form>
+      </div>
+    </>
+  ) : (
+    <>
+      <Background />
+      <div class={styles.loginContainer}>
+        <h1>Create Your Account</h1>
+        <form onSubmit={handleSubmit} class={styles.signupForm}>
+          <label for="username">
+            Username: <span className={styles.asterisk}>*</span>
+          </label>
+          <input
+            className={styles.authInp}
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            placeholder="Enter your username"
+            required
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+          <label htmlFor="email">
+            Email: <span className={styles.asterisk}>*</span>
+          </label>
+          <input
+            className={styles.authInp}
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            required
+          />
+
+          <label htmlFor="password">
+            Password: <span className={styles.asterisk}>*</span>
+          </label>
+          <input
+            className={styles.authInp}
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            required
+          />
+          <label htmlFor="file">
+            Profile Picture : <span className={styles.asterisk}>*</span>
+          </label>
+          <input
+            type="file"
+            name="file"
+            className={styles.customInput}
+            placeholder="Upload your image"
+            onChange={(e) => {
+              setFile(e.target.files[0]);
+            }}
+          />
+          <button className="authBtn" type="submit">
             Sign Up
           </button>
-          <a
-            className={styles.authBtn}
-            onClick={(e) => {
-              setLogin(true);
-            }}
-            type="button"
-          >
-            Have an account ? Login
-          </a>
+          <p className="font12">
+            Already a user?{" "}
+            <a
+              onClick={() => {
+                setLogin(true);
+              }}
+              className="link"
+            >
+              Login
+            </a>
+          </p>
         </form>
       </div>
     </>

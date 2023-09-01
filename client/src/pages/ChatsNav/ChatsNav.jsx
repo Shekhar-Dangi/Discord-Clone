@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import InfoBox from "../../components/InfoBox/InfoBox";
-import InputBox from "../../components/InputBox/InputBox";
 import stylesNav from "./ChatsNav.module.css";
 import { NavLink, useParams } from "react-router-dom";
 import axiosInstance from "../../axios-config";
-import getUser from "../../user-local";
 import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
 
 export default function ChatsNav({ user }) {

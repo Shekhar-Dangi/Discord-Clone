@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import AuthL from "./pages/Auth/AuthL";
 import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 import jwtDecode from "jwt-decode";
+import Default from "./pages/Default/Default";
 
 function App() {
   const [cookies, removeCookie] = useCookies([]);
@@ -68,6 +69,7 @@ function App() {
           </ProtectedRoute>
         }
       >
+        <Route index element={<Default user={userM} />} />
         <Route
           path="server/:id"
           element={
@@ -94,6 +96,14 @@ function App() {
             }
           />
         </Route>
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticate}>
+              <div>Not Found! 404</div>
+            </ProtectedRoute>
+          }
+        ></Route>
       </Route>
     </Routes>
   );

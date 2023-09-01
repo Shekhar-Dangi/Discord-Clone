@@ -5,6 +5,7 @@ export default function InputBox({ placeholder, inputStyles = {} }) {
     <input
       placeholder={placeholder}
       type="text"
+      name="textValue"
       className={styles.inputBox}
       style={inputStyles}
     ></input>
