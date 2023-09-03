@@ -1,7 +1,9 @@
 import socketIO from "socket.io-client";
 
 export default function socketController() {
-  const socket = socketIO.connect("http://localhost:8000");
+  const socket = socketIO.connect(
+    "https://discord-clone-omega-livid.vercel.app/"
+  );
 
   const disconnect = () => {
     socket.disconnect();
