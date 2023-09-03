@@ -30,7 +30,7 @@ let privateRooms = {};
 let publicRooms = {};
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "https://discord-clone-4e2v-git-main-shekhar-dangi.vercel.app",
+    origin: "*",
   },
 });
 
