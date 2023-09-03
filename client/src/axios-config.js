@@ -2,7 +2,7 @@ import axios from "axios";
 import { getTokenFromCookies } from "./cookieUtil";
 
 const reqInstance = axios.create({
-  baseURL: "https://discord-clone-shekhar-dangi.vercel.app/",
+  baseURL: "https://discord-bs4u.onrender.com/",
 });
 
 reqInstance.interceptors.request.use(

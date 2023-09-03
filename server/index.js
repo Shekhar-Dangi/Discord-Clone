@@ -12,25 +12,17 @@ const User = require("./models/User");
 const app = express();
 app.use(
   cors({
-    origin: "https://discord-clone-4e2v-git-main-shekhar-dangi.vercel.app",
+    origin: "https://brilliant-marshmallow-d6afbc.netlify.app/",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 const http = require("http").Server(app);
 let privateRooms = {};
 let publicRooms = {};
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "*",
+    origin: "https://brilliant-marshmallow-d6afbc.netlify.app/",
   },
 });
 
