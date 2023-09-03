@@ -27,7 +27,7 @@ export default function AuthL({ isAuthenticate, user }) {
     try {
       if (login) {
         const { data } = await axios.post(
-          "http://localhost:8000/api/login",
+          "https://discord-clone-omega-livid.vercel.app/api/login",
           {
             username,
             password,

@@ -10,7 +10,13 @@ const Message = require("./models/Message");
 const User = require("./models/User");
 
 const app = express();
-
+app.use(
+  cors({
+    origin: "https://discord-clone-4e2v.vercel.app/",
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  })
+);
 const http = require("http").Server(app);
 let privateRooms = {};
 let publicRooms = {};
@@ -149,12 +155,7 @@ socketIO.on("connection", (socket) => {
 app.use(express.json());
 app.use("/uploads", express.static("../uploads"));
 dotenv.config();
-app.use(
-  cors({
-    origin: "https://discord-clone-4e2v.vercel.app/",
-    credentials: true,
-  })
-);
+
 app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("check");
