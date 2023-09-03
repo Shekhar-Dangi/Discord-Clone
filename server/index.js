@@ -19,11 +19,31 @@ const socketIO = require("socket.io")(http, {
   },
 });
 
+const newSocketRequest = (recipientType, socket, recipientId, event, data) => {
+  if (recipientType !== "channel") {
+    console.log(event);
+    socket.emit(event, data);
+    socketIO.to(recipientId).emit(event, data);
+    console.log("emitted");
+  } else {
+    socketIO.to(recipientId).emit(event, data);
+  }
+};
+
 socketIO.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
+  const mapRooms = socketIO.sockets.adapter.rooms;
   socket.on("joinRoom", (roomName) => {
-    socket.join(roomName);
-    console.log(`Socket ${socket.id} joined room ${roomName}`);
+    if (
+      !(
+        mapRooms.has(roomName.id) &&
+        mapRooms.get(roomName.id).size == 1 &&
+        roomName.private
+      )
+    ) {
+      socket.join(roomName.id);
+      console.log(`Socket ${socket.id} joined room ${roomName.id}`);
+    }
   });
   socket.on(
     "message",
@@ -36,24 +56,59 @@ socketIO.on("connection", (socket) => {
           recipientType,
         });
         const savedMessage = await newMessage.save();
-        const populatedMessage = await savedMessage.populate("sender");
-        if (recipientType !== "channel") {
-          socket.emit("addMessage", populatedMessage);
-          socketIO.to(recipientId).emit("addMessage", populatedMessage);
-          console.log("emitted");
-        } else {
-          socketIO.to(recipientId).emit("addMessage", populatedMessage);
-        }
+        const data = await savedMessage.populate("sender");
+        const event = "addMessage";
+        newSocketRequest(recipientType, socket, recipientId, event, data);
       } catch (error) {
         console.log(error);
       }
     }
   );
+  socket.on("newServer", async (server) => {
+    socket.emit("addServer", server);
+  });
+  socket.on("newChannel", async (channel) => {
+    console.log(channel);
+    socket.emit("addChannel", channel);
+  });
+  socket.on("channelRequest", async (username) => {
+    console.log("hello");
+    const user = await User.find({ username });
+    console.log(user);
+  });
   socket.on("newRequest", async ({ id, recipientId }) => {
-    console.log(id);
     const user = await User.findById(id);
+    console.log("new req");
     await socketIO.to(recipientId).emit("addReq", user);
   });
+
+  socket.on("deleteMessage", async ({ id, recipientId, recipientType }) => {
+    try {
+      console.log(id);
+      const data = await Message.findByIdAndRemove(id);
+      const event = "deleteMessage";
+      newSocketRequest(recipientType, socket, recipientId, event, data);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  socket.on(
+    "updateMessage",
+    async ({ id, recipientId, content, recipientType }) => {
+      try {
+        const updatedMessage = await Message.findByIdAndUpdate(
+          id,
+          { content },
+          { new: true }
+        );
+        const data = await updatedMessage.populate("sender");
+        const event = "updateMessage";
+        newSocketRequest(recipientType, socket, recipientId, event, data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  );
   socket.on("disconnect", () => {
     console.log("🔥: A user disconnected");
   });

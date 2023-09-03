@@ -1,0 +1,46 @@
+.visible {
+  display: flex;
+}
+.notVisible {
+  display: none;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.modal {
+  position: absolute;
+  flex-direction: column;
+  top: 30%;
+  left: 30%;
+  width: 50%;
+  height: fit-content;
+  background-color: #b5fa7d;
+  padding: 20px;
+  text-align: center;
+  z-index: 1;
+  border-radius: 8px;
+  min-height: 30%;
+}
+
+.heading {
+  font-size: 24px;
+  color: black;
+  margin-bottom: 40px;
+}
+.cross {
+  position: absolute;
+  top: 8px;
+  right: 5px;
+  color: black;
+  font-size: 18px;
+}

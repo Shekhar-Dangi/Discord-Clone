@@ -54,10 +54,9 @@ const addRequest = async (req, res) => {
       }
     );
 
-    res
-      .status(201)
-      .json({ message: "Request sent successfully!", user1, user2 });
+    res.status(201).json({ message: "Request sent successfully!", user1 });
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };

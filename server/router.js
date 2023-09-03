@@ -4,6 +4,7 @@ const {
   getChannels,
   addChannel,
   getChannel,
+  addMember,
 } = require("./controllers/serverController");
 const {
   createUser,
@@ -46,6 +47,7 @@ const upload = multer({ storage, fileFilter: imageFilter });
 router.get("/authUser", getLoggedInUser);
 router.get("/api/guilds/:id", userVerification, getServers);
 router.post("/api/guilds", userVerification, createServer);
+router.post("/api/guilds/newMember/:serverId", userVerification, addMember);
 router.post("/api/members", upload.single("avatar"), createUser);
 router.post("/api/login", loginUser);
 router.get("/api/members/:id", userVerification, getUser);

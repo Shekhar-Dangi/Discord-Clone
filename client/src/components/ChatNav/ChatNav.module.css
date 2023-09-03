@@ -7,7 +7,12 @@
   position: relative;
   border-bottom: 1px solid black;
 }
-
+.cTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
 .c1 {
   text-align: left;
   flex: 1;

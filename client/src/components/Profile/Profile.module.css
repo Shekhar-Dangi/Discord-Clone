@@ -1,0 +1,20 @@
+.avatar {
+  width: 250px;
+  height: 250px;
+  border-radius: 59%;
+  margin-bottom: 20px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.displayRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.colBlue {
+  color: #04a7fc;
+}

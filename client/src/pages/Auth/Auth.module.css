@@ -33,16 +33,6 @@ label {
   font-size: 12px;
 }
 
-.authInp {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 30px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  outline: none;
-  color: black;
-}
-
 .asterisk {
   color: red;
   font-size: 16px;

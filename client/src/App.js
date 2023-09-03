@@ -8,15 +8,16 @@ import { useCookies } from "react-cookie";
 import jwt from "jwt-decode";
 import axiosInstance from "./axios-config.js";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AuthL from "./pages/Auth/AuthL";
 import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 import jwtDecode from "jwt-decode";
 import Default from "./pages/Default/Default";
-
+import { SocketProvider } from "./SocketContext";
 function App() {
   const [cookies, removeCookie] = useCookies([]);
   const [isAuthenticate, setAuth] = useState(!!cookies);
+
   const [userM, setUserM] = useState({});
   const containerClasses = `${styles.flexDirectionRow} ${styles.makeFlex} ${styles.h100vh} mainContainer`;
 
@@ -25,6 +26,7 @@ function App() {
       let user = null;
       if (!cookies.token) {
         setAuth(false);
+        console.log("Auth is false");
       }
       try {
         if ("token" in cookies) {
@@ -41,71 +43,73 @@ function App() {
           console.log(data);
         }
       } catch (error) {
+        console.log("Set to false");
+        console.log(error);
         setAuth(false);
       }
-
       if (!!user) {
         setAuth(true);
       }
     };
-
     verifyCookie();
   }, [cookies]);
 
   return (
-    <Routes>
-      <Route
-        path="/auth"
-        element={<AuthL isAuthenticate={isAuthenticate} />}
-      ></Route>
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute isAuthenticated={isAuthenticate}>
-            <div className={containerClasses}>
-              <QuickNav user={userM} />
-              <Outlet user={userM} />
-            </div>
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Default user={userM} />} />
+    <SocketProvider>
+      <Routes>
         <Route
-          path="server/:id"
+          path="/auth"
+          element={<AuthL isAuthenticate={isAuthenticate} />}
+        ></Route>
+        <Route
+          path="/"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticate}>
-              <ChatsNav user={userM} />
-              <Outlet user={userM} />
+              <div className={containerClasses}>
+                <QuickNav user={userM} />
+                <Outlet user={userM} />
+              </div>
             </ProtectedRoute>
           }
         >
+          <Route index element={<Default user={userM} />} />
           <Route
-            path="channels/:cId"
+            path="server/:id"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticate}>
-                <ChatBox user={userM} />
+                <ChatsNav user={userM} />
+                <Outlet user={userM} />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route
+              path="channels/:cId"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticate}>
+                  <ChatBox user={userM} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":uId"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticate}>
+                  <ChatBox user={userM} />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
           <Route
-            path=":uId"
+            path="*"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticate}>
-                <ChatBox user={userM} />
+                <div>Not Found! 404</div>
               </ProtectedRoute>
             }
-          />
+          ></Route>
         </Route>
-        <Route
-          path="*"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticate}>
-              <div>Not Found! 404</div>
-            </ProtectedRoute>
-          }
-        ></Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </SocketProvider>
   );
 }
 

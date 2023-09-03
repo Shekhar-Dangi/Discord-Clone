@@ -1,8 +1,8 @@
 import styles from "./ProfileHeader.module.css";
 
-export default function ProfileHeader({ username, avatar }) {
+export default function ProfileHeader({ username, avatar, onClick }) {
   return (
-    <div className={styles.header}>
+    <div onClick={onClick} className={styles.header}>
       <div className={styles.username}>
         <img className="avatar" src={avatar} alt="Profile Avatar" />
         {username &&

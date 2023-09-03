@@ -3,17 +3,22 @@ import styles from "./Auth.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Background from "../../components/Background";
+import { useCookies } from "react-cookie";
 
-export default function AuthL({ isAuthenticate }) {
+export default function AuthL({ isAuthenticate, user }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cookies, removeCookie] = useCookies([]);
   const [file, setFile] = useState(null);
   const [login, setLogin] = useState(true);
   const navigate = useNavigate();
   const [key, setKey] = useState(1);
+
   useEffect(() => {
-    if (isAuthenticate) navigate("/");
+    if (isAuthenticate) {
+      navigate("/");
+    }
   }, []);
 
   const handleSubmit = async (e) => {
@@ -66,7 +71,7 @@ export default function AuthL({ isAuthenticate }) {
             Username <span className={styles.asterisk}>*</span>
           </label>
           <input
-            className={styles.authInp}
+            className={`authInp`}
             type="text"
             id="username"
             name="username"
@@ -81,7 +86,7 @@ export default function AuthL({ isAuthenticate }) {
             Password <span className={styles.asterisk}>*</span>
           </label>
           <input
-            className={styles.authInp}
+            className={`authInp`}
             type="password"
             id="password"
             name="password"
@@ -120,7 +125,7 @@ export default function AuthL({ isAuthenticate }) {
             Username: <span className={styles.asterisk}>*</span>
           </label>
           <input
-            className={styles.authInp}
+            className={`authInp`}
             type="text"
             id="username"
             name="username"
@@ -135,7 +140,7 @@ export default function AuthL({ isAuthenticate }) {
             Email: <span className={styles.asterisk}>*</span>
           </label>
           <input
-            className={styles.authInp}
+            className={`authInp`}
             type="email"
             id="email"
             name="email"
@@ -151,7 +156,7 @@ export default function AuthL({ isAuthenticate }) {
             Password: <span className={styles.asterisk}>*</span>
           </label>
           <input
-            className={styles.authInp}
+            className={`authInp`}
             type="password"
             id="password"
             name="password"

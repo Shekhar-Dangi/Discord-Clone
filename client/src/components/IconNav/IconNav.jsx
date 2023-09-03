@@ -2,15 +2,19 @@ import styles from "./IconNav.module.css";
 import DMIcon from "../DMIcon/DMIcon";
 import { Link } from "react-router-dom";
 
-export default function IconNav({ dm, id, disName = "SS" }) {
+export default function IconNav({ dm, id, disName, onClick }) {
   return (
     <>
       {dm ? (
-        <div className={`${styles.icon}`}>
+        <div onClick={onClick} className={`${styles.icon}`}>
           <DMIcon />
         </div>
       ) : (
-        <div className={`${styles.server} ${styles.icon}`} key={id}>
+        <div
+          onClick={onClick}
+          className={`${styles.server} ${styles.icon}`}
+          key={id}
+        >
           {disName}
         </div>
       )}

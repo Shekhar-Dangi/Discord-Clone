@@ -1,12 +1,11 @@
 import SvgIcon from "../SvgIcon/SvgICon";
 import styles from "./InfoBox.module.css";
 
-export default function InfoBox({ avatar, text, url }) {
-  console.log(typeof url);
+export default function InfoBox({ onClick, avatar, text, url }) {
   const isOnline = true;
   return (
     <>
-      <div className={styles.info}>
+      <div onClick={onClick} className={styles.info}>
         {url != null ? (
           <img className="profileImage" src={url}></img>
         ) : (
