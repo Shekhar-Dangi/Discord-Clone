@@ -5,7 +5,7 @@ export default function Profile({ user }) {
       <img src={user.avatar} className={styles.avatar}></img>
       <div className={styles.displayRow}>
         <i class={`${styles.colBlue} fa-solid fa-hashtag`}></i>
-        <div className="colBlack">{user.username}</div>
+        <div className="colBlack">{user.username || user.name}</div>
       </div>
     </div>
   );

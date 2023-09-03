@@ -1,13 +1,13 @@
 const express = require("express");
-const router = require("./router");
+const router = require("../router");
 const PORT = 8000;
 const cors = require("cors");
 
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
 const cookieParser = require("cookie-parser");
-const Message = require("./models/Message");
-const User = require("./models/User");
+const Message = require("../models/Message");
+const User = require("../models/User");
 
 const app = express();
 

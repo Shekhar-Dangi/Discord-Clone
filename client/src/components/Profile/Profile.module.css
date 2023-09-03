@@ -3,6 +3,7 @@
   height: 250px;
   border-radius: 59%;
   margin-bottom: 20px;
+  background-color: white;
 }
 .container {
   display: flex;
