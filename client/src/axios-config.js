@@ -2,7 +2,7 @@ import axios from "axios";
 import { getTokenFromCookies } from "./cookieUtil";
 
 const reqInstance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://discord-clone-omega-livid.vercel.app/",
 });
 
 reqInstance.interceptors.request.use(
