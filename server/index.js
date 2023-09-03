@@ -12,7 +12,7 @@ const User = require("./models/User");
 const app = express();
 app.use(
   cors({
-    origin: "https://discord-clone-4e2v.vercel.app/",
+    origin: "https://discord-clone-4e2v.vercel.app",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
