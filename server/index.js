@@ -12,7 +12,7 @@ const User = require("./models/User");
 const app = express();
 app.use(
   cors({
-    origin: "'https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app/",
+    origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app/",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
@@ -22,7 +22,7 @@ let privateRooms = {};
 let publicRooms = {};
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "'https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app'",
+    origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app'",
   },
 });
 
