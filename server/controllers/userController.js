@@ -53,7 +53,6 @@ const addRequest = async (req, res) => {
         new: true,
       }
     );
-
     res.status(201).json({ message: "Request sent successfully!", user1 });
   } catch (error) {
     console.log(error);
@@ -115,7 +114,9 @@ const createUser = async (req, res) => {
     const { username, email, password, status, bio, friends } = req.body;
     const hashedPassword = await bcrypt.hash(password, 12);
     const uploadedFile = await req.file;
-    avatar = "http://localhost:8000" + uploadedFile.path.slice(2);
+    avatar =
+      "https://discord-clone-shekhar-dangi.vercel.app" +
+      uploadedFile.path.slice(2);
     const newUser = new User({
       username,
       email,

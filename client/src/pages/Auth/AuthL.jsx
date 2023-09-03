@@ -41,7 +41,7 @@ export default function AuthL({ isAuthenticate, user }) {
         formData.append("email", email);
         formData.append("avatar", file);
         const { data } = await axios.post(
-          "http://localhost:8000/api/members",
+          "https://discord-clone-shekhar-dangi.vercel.app/api/members",
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
