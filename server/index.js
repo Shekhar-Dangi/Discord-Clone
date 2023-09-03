@@ -16,7 +16,7 @@ let privateRooms = {};
 let publicRooms = {};
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://discord-clone-4e2v.vercel.app/",
   },
 });
 
