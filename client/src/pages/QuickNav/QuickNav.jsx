@@ -44,6 +44,10 @@ export default function QuickNav({}) {
           setData((prev) => [...prev, server]);
         });
     }
+    return () => {
+      console.log("DECREASED");
+      socket && socket.emit("empty");
+    };
   }, [socket]);
 
   return (

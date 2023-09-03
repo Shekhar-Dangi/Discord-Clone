@@ -17,7 +17,6 @@ export default function ChatBox({ user }) {
         messagesContainerRef.current.scrollHeight + 2000;
     }
   }
-
   const defaultAvatar =
     "https://img.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg?w=1480&t=st=1693148486~exp=1693149086~hmac=19c31c3babe6136a9b3de98f67b301e5f68bda89a093e5f54abeb211e5b6bfcd";
 
@@ -55,11 +54,11 @@ export default function ChatBox({ user }) {
         sender: user._id,
         recipientType: "uId" in params ? "user" : "channel",
         recipientId: isUser ? params.uId : params.cId,
-        content: e.target[0].value,
+        content: value,
       });
     } else if (isUpdate) {
       socket.emit("updateMessage", {
-        content: e.target[0].value,
+        content: value,
         id: updateId,
         recipientType: "uId" in params ? "user" : "channel",
         recipientId: isUser ? params.uId : params.cId,
@@ -80,6 +79,11 @@ export default function ChatBox({ user }) {
       const res = await axiosInstance.get(`/api/members/${params.uId}`);
       setData(res.data);
     } else {
+      socket &&
+        socket.emit("joinRoom", {
+          private: isUser,
+          id: isUser ? params.uId : params.cId,
+        });
       const res = await axiosInstance.get(
         `/api/guilds/${params.id}/channels/${params.cId}`
       );
@@ -90,32 +94,37 @@ export default function ChatBox({ user }) {
 
   useEffect(() => {
     fetchData();
-    if (!again && socket) {
-      setAgain(true);
-      socket &&
-        socket.on("addMessage", async (response) => {
-          console.log(response);
-          setMessages((prevMessages) => [...prevMessages, response]);
-          setTimeout(downScroll, 300);
-        });
-      socket &&
-        socket.on("updateMessage", async (response) => {
-          setMessages((prevMessages) =>
-            prevMessages.map((message) =>
-              message._id == response._id ? response : message
-            )
-          );
-          setUpdateId("");
-        });
-      socket &&
-        socket.on("deleteMessage", async (response) => {
-          setMessages((prevMessages) =>
-            prevMessages.filter((message) => message._id !== response._id)
-          );
-          setUpdateId("");
-        });
-    }
-  }, [params, user]);
+
+    setAgain(true);
+    socket &&
+      socket.on("addMessage", async (response) => {
+        console.log("new message");
+        setMessages((prevMessages) => [...prevMessages, response]);
+        setTimeout(downScroll, 300);
+      });
+    socket &&
+      socket.on("updateMessage", async (response) => {
+        setMessages((prevMessages) =>
+          prevMessages.map((message) =>
+            message._id == response._id ? response : message
+          )
+        );
+        setUpdateId("");
+      });
+    socket &&
+      socket.on("deleteMessage", async (response) => {
+        setMessages((prevMessages) =>
+          prevMessages.filter((message) => message._id !== response._id)
+        );
+        setUpdateId("");
+      });
+
+    return () => {
+      socket && socket.off("deleteMessage");
+      socket && socket.off("updateMessage");
+      socket && socket.off("addMessage");
+    };
+  }, [params, user, socket]);
   return (
     <>
       <div className={`${stylesNav.flexWidth} ${stylesNav.backChatBox}`}>

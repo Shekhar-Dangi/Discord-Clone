@@ -13,7 +13,7 @@ import AuthL from "./pages/Auth/AuthL";
 import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 import jwtDecode from "jwt-decode";
 import Default from "./pages/Default/Default";
-import { SocketProvider } from "./SocketContext";
+import { SocketProvider } from "./SocketContext.js";
 function App() {
   const [cookies, removeCookie] = useCookies([]);
   const [isAuthenticate, setAuth] = useState(!!cookies);

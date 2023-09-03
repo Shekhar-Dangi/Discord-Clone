@@ -12,7 +12,8 @@ const User = require("./models/User");
 const app = express();
 
 const http = require("http").Server(app);
-
+let privateRooms = {};
+let publicRooms = {};
 const socketIO = require("socket.io")(http, {
   cors: {
     origin: "http://localhost:3000",
@@ -21,7 +22,6 @@ const socketIO = require("socket.io")(http, {
 
 const newSocketRequest = (recipientType, socket, recipientId, event, data) => {
   if (recipientType !== "channel") {
-    console.log(event);
     socket.emit(event, data);
     socketIO.to(recipientId).emit(event, data);
     console.log("emitted");
@@ -33,18 +33,29 @@ const newSocketRequest = (recipientType, socket, recipientId, event, data) => {
 socketIO.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
   const mapRooms = socketIO.sockets.adapter.rooms;
-  socket.on("joinRoom", (roomName) => {
-    if (
-      !(
-        mapRooms.has(roomName.id) &&
-        mapRooms.get(roomName.id).size == 1 &&
-        roomName.private
-      )
-    ) {
-      socket.join(roomName.id);
-      console.log(`Socket ${socket.id} joined room ${roomName.id}`);
+  socket.on("joinRoom", (data) => {
+    const roomId = data.id;
+    const isPrivate = data.private;
+
+    if (isPrivate) {
+      if (!privateRooms[roomId]) {
+        socket.join(roomId);
+        privateRooms[roomId] = socket.id;
+        console.log(`${socket.id} joined ${roomId}`);
+      }
+    } else {
+      if (!publicRooms[roomId]) {
+        publicRooms[roomId] = [];
+      }
+
+      if (!publicRooms[roomId].includes(socket.id)) {
+        socket.join(roomId);
+        publicRooms[roomId].push(socket.id);
+        console.log(`${socket.id} joined ${roomId}`);
+      }
     }
   });
+
   socket.on(
     "message",
     async ({ sender, recipientId, content, recipientType }) => {
@@ -58,6 +69,7 @@ socketIO.on("connection", (socket) => {
         const savedMessage = await newMessage.save();
         const data = await savedMessage.populate("sender");
         const event = "addMessage";
+
         newSocketRequest(recipientType, socket, recipientId, event, data);
       } catch (error) {
         console.log(error);
@@ -70,6 +82,11 @@ socketIO.on("connection", (socket) => {
   socket.on("newChannel", async (channel) => {
     console.log(channel);
     socket.emit("addChannel", channel);
+  });
+  socket.on("empty", async (channel) => {
+    privateRooms = {};
+    publicRooms = {};
+    console.log("cleared");
   });
   socket.on("channelRequest", async (username) => {
     console.log("hello");
@@ -111,7 +128,22 @@ socketIO.on("connection", (socket) => {
   );
   socket.on("disconnect", () => {
     console.log("🔥: A user disconnected");
+    for (const roomId in publicRooms) {
+      if (publicRooms[roomId].includes(socket.id)) {
+        publicRooms[roomId] = publicRooms[roomId].filter(
+          (userId) => userId !== socket.id
+        );
+        socket.leave(roomId);
+      }
+    }
+    console.log(privateRooms);
+    // Remove the user from all private rooms
+    for (const roomId in privateRooms) {
+      delete privateRooms[roomId];
+      socket.leave(roomId);
+    }
   });
+  console.log(privateRooms);
 });
 
 app.use(express.json());
