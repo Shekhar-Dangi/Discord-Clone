@@ -19,7 +19,6 @@ app.use(
     origin: "https://discord-clone-nsxl.onrender.com",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    exposedHeaders,
   })
 );
 const server = app.listen(PORT, () => {
