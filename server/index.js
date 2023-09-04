@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
 });
 app.use(
   cors({
-    origin: "https://discord-clone-nsxl.onrender.com/",
+    origin: "https://discord-clone-nsxl.onrender.com",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
@@ -26,7 +26,7 @@ let privateRooms = {};
 let publicRooms = {};
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "https://discord-clone-nsxl.onrender.com/",
+    origin: "https://discord-clone-nsxl.onrender.com",
     withCredentials: true,
   },
 });
