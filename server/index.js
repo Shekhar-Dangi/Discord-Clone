@@ -19,17 +19,21 @@ app.use(
     origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    exposedHeaders,
   })
 );
-const http = require("http").Server(app);
+const server = app.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
+let socketIO = require("socket.io").listen(server);
 let privateRooms = {};
 let publicRooms = {};
-const socketIO = require("socket.io")(http, {
-  cors: {
-    origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app",
-    withCredentials: true,
-  },
-});
+// const socketIO = require("socket.io")(http, {
+//   cors: {
+//     origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app",
+//     withCredentials: true,
+//   },
+// });
 
 const newSocketRequest = (recipientType, socket, recipientId, event, data) => {
   if (recipientType !== "channel") {
@@ -180,7 +184,3 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
-http.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
