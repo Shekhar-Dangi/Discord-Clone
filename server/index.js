@@ -10,6 +10,10 @@ const Message = require("./models/Message");
 const User = require("./models/User");
 
 const app = express();
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 app.use(
   cors({
     origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app",
