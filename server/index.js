@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
 });
 app.use(
   cors({
-    origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app",
+    origin: "https://discord-clone-nsxl.onrender.com",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     exposedHeaders,
