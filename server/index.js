@@ -16,23 +16,20 @@ app.use(function (req, res, next) {
 });
 app.use(
   cors({
-    origin: "https://discord-clone-nsxl.onrender.com",
+    origin: "https://discord-clone-nsxl.onrender.com/",
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
-const server = app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
-let socketIO = require("socket.io").listen(server);
+const http = require("http").Server(app);
 let privateRooms = {};
 let publicRooms = {};
-// const socketIO = require("socket.io")(http, {
-//   cors: {
-//     origin: "https://discord-clone-4e2v-ntqdznb47-shekhar-dangi.vercel.app",
-//     withCredentials: true,
-//   },
-// });
+const socketIO = require("socket.io")(http, {
+  cors: {
+    origin: "https://discord-clone-nsxl.onrender.com/",
+    withCredentials: true,
+  },
+});
 
 const newSocketRequest = (recipientType, socket, recipientId, event, data) => {
   if (recipientType !== "channel") {
@@ -183,3 +180,7 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+http.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
