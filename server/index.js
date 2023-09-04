@@ -18,6 +18,16 @@ app.use(
   cors({
     origin: "https://discord-clone-nsxl.onrender.com",
     credentials: true,
+  })
+);
+const http = require("http").Server(app);
+let privateRooms = {};
+let publicRooms = {};
+const socketIO = require("socket.io")(http, {
+  cors: {
+    origin: "https://discord-clone-nsxl.onrender.com",
+    withCredentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     handlePreflightRequest: (req, res) => {
       res.writeHead(200, {
         "Access-Control-Allow-Origin":
@@ -28,16 +38,6 @@ app.use(
       });
       res.end();
     },
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  })
-);
-const http = require("http").Server(app);
-let privateRooms = {};
-let publicRooms = {};
-const socketIO = require("socket.io")(http, {
-  cors: {
-    origin: "https://discord-clone-nsxl.onrender.com",
-    withCredentials: true,
   },
 });
 
