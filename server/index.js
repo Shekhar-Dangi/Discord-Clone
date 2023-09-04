@@ -18,6 +18,16 @@ app.use(
   cors({
     origin: "https://discord-clone-nsxl.onrender.com",
     credentials: true,
+    handlePreflightRequest: (req, res) => {
+      res.writeHead(200, {
+        "Access-Control-Allow-Origin":
+          "https://discord-clone-nsxl.onrender.com",
+        "Access-Control-Allow-Methods": "GET,POST",
+        "Access-Control-Allow-Headers": "my-custom-header",
+        "Access-Control-Allow-Credentials": true,
+      });
+      res.end();
+    },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
