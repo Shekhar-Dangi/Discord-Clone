@@ -4,6 +4,13 @@ import { getTokenFromCookies } from "./cookieUtil";
 const reqInstance = axios.create({
   baseURL: "https://discord-bs4u.onrender.com",
   withCredentials: true,
+  transportOptions: {
+    polling: {
+      extraHeaders: {
+        "my-custom-header": "abcd",
+      },
+    },
+  },
 });
 
 reqInstance.interceptors.request.use(
