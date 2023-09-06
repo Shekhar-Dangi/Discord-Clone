@@ -2,30 +2,28 @@ const express = require("express");
 const router = require("./router");
 const PORT = 8000;
 const cors = require("cors");
-
+const { Server } = require("socket.io");
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
 const cookieParser = require("cookie-parser");
 const Message = require("./models/Message");
 const User = require("./models/User");
-
 const app = express();
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
+
+const http = require("http");
+const server = http.createServer(app);
 app.use(
   cors({
     origin: "https://discord-clone-nsxl.onrender.com",
     credentials: true,
   })
 );
-const http = require("http").Server(app);
 let privateRooms = {};
 let publicRooms = {};
-const socketIO = require("socket.io")(http, {
+const socketIO = new Server(server, {
   cors: {
-    origins: ["https://discord-clone-nsxl.onrender.com"],
+    origin: "https://discord-clone-nsxl.onrender.com",
+    credentials: true,
     handlePreflightRequest: (req, res) => {
       res.writeHead(200, {
         "Access-Control-Allow-Credentials": true,
