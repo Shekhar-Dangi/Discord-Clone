@@ -1,7 +1,7 @@
 import socketIO from "socket.io-client";
 
 export default function socketController() {
-  const socket = socketIO.connect("https://discord-bs4u.onrender.com/", {
+  const socket = socketIO.connect("https://discord-server-hu1l.onrender.com", {
     withCredentials: true,
   });
 

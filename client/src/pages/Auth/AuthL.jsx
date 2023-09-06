@@ -27,7 +27,7 @@ export default function AuthL({ isAuthenticate, user }) {
     try {
       if (login) {
         const { data } = await axios.post(
-          "https://discord-clone-omega-livid.vercel.app/api/login",
+          "https://discord-server-hu1l.onrender.com/api/login",
           {
             username,
             password,
@@ -41,7 +41,7 @@ export default function AuthL({ isAuthenticate, user }) {
         formData.append("email", email);
         formData.append("avatar", file);
         const { data } = await axios.post(
-          "https://discord-clone-shekhar-dangi.vercel.app/api/members",
+          "https://discord-server-hu1l.onrender.com/api/members",
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
