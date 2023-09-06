@@ -51,7 +51,7 @@ export default function AuthL({ isAuthenticate, user }) {
         );
         console.log(data);
       }
-      useNavigate("/");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
