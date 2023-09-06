@@ -34,6 +34,7 @@ export default function AuthL({ isAuthenticate, user }) {
           },
           { withCredentials: true }
         );
+        console.log(data);
       } else {
         const formData = new FormData();
         formData.append("username", username);
