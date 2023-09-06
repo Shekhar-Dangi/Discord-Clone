@@ -24,20 +24,16 @@ const http = require("http").Server(app);
 let privateRooms = {};
 let publicRooms = {};
 const socketIO = require("socket.io")(http, {
-  cors: {
-    origin: "https://discord-clone-nsxl.onrender.com",
-    withCredentials: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    handlePreflightRequest: (req, res) => {
-      res.writeHead(200, {
-        "Access-Control-Allow-Origin":
-          "https://discord-clone-nsxl.onrender.com",
-        "Access-Control-Allow-Methods": "GET,POST",
-        "Access-Control-Allow-Headers": "my-custom-header",
-        "Access-Control-Allow-Credentials": true,
-      });
-      res.end();
-    },
+  origins: ["https://discord-clone-nsxl.onrender.com"],
+
+  handlePreflightRequest: (req, res) => {
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": "https://discord-clone-nsxl.onrender.com",
+      "Access-Control-Allow-Methods": "GET,POST",
+      "Access-Control-Allow-Headers": "my-custom-header",
+      "Access-Control-Allow-Credentials": true,
+    });
+    res.end();
   },
 });
 
