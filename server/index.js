@@ -186,6 +186,6 @@ mongoose
     console.log(err);
   });
 
-http.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
