@@ -114,9 +114,7 @@ const createUser = async (req, res) => {
     const { username, email, password, status, bio, friends } = req.body;
     const hashedPassword = await bcrypt.hash(password, 12);
     const uploadedFile = await req.file;
-    avatar =
-      "https://discord-clone-shekhar-dangi.vercel.app" +
-      uploadedFile.path.slice(2);
+    avatar = process.env.CLIENT_URL + uploadedFile.path.slice(2);
     const newUser = new User({
       username,
       email,
@@ -171,6 +169,7 @@ const loginUser = async (req, res) => {
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
       httpOnly: false,
+      domain: process.env.CLIENT_URL,
     });
     res
       .status(201)
