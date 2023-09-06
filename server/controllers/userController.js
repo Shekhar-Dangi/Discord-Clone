@@ -155,7 +155,6 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     console.log("Request recieved");
-    res.header("Access-Control-Allow-Credentials", true);
     const { username, password } = req.body;
     if (!username || !password) {
       return res.json({ message: "All fields are required" });
