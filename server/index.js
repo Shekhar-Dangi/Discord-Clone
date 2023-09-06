@@ -14,7 +14,7 @@ const http = require("http");
 const server = http.createServer(app);
 app.use(
   cors({
-    origin: "https://discord-clone-nsxl.onrender.com",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
@@ -22,13 +22,12 @@ let privateRooms = {};
 let publicRooms = {};
 const socketIO = new Server(server, {
   cors: {
-    origin: "https://discord-clone-nsxl.onrender.com",
+    origin: process.env.CLIENT_URL,
     credentials: true,
     handlePreflightRequest: (req, res) => {
       res.writeHead(200, {
         "Access-Control-Allow-Credentials": true,
-        "Access-Control-Allow-Origin":
-          "https://discord-clone-nsxl.onrender.com",
+        "Access-Control-Allow-Origin": process.env.CLIENT_URL,
         "Access-Control-Allow-Methods": "GET,POST",
         "Access-Control-Allow-Headers": "my-custom-header",
       });
