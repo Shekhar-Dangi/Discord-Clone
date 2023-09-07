@@ -20,7 +20,7 @@ export default function AuthL({ isAuthenticate, user }) {
     if (isAuthenticate) {
       navigate("/");
     }
-  }, []);
+  }, [username]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +53,10 @@ export default function AuthL({ isAuthenticate, user }) {
         );
         console.log(data);
       }
-      window.location.reload();
+      setUsername("");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
