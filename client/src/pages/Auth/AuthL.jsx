@@ -54,8 +54,8 @@ export default function AuthL({ setCookie, isAuthenticate, user }) {
             withCredentials: true,
           }
         );
+        setCookie(data.token);
       }
-
       updateCookie(getTokenFromCookies());
     } catch (error) {
       console.log(error);
