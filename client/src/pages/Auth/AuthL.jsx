@@ -7,11 +7,11 @@ import { useCookies } from "react-cookie";
 import Cookies from "js-cookie";
 import { getTokenFromCookies } from "../../cookieUtil";
 
-export default function AuthL({ isAuthenticate, user }) {
+export default function AuthL({ setCookie, isAuthenticate, user }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cookie, updateCookie] = useState("");
+  const [cookie, updateCookie] = useState(getTokenFromCookies());
   const [file, setFile] = useState(null);
   const [login, setLogin] = useState(true);
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function AuthL({ isAuthenticate, user }) {
           { withCredentials: true }
         );
         Cookies.set("token", data.token, { expires: 1 });
-        console.log(data);
+        setCookie(data.token);
       } else {
         const formData = new FormData();
         formData.append("username", username);
@@ -55,6 +55,7 @@ export default function AuthL({ isAuthenticate, user }) {
           }
         );
       }
+
       updateCookie(getTokenFromCookies());
     } catch (error) {
       console.log(error);

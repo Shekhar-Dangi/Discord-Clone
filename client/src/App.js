@@ -14,9 +14,10 @@ import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 import jwtDecode from "jwt-decode";
 import Default from "./pages/Default/Default";
 import { SocketProvider } from "./SocketContext.js";
+import { getTokenFromCookies } from "./cookieUtil";
 function App() {
-  const [cookies, removeCookie] = useCookies([]);
-  const [isAuthenticate, setAuth] = useState(!!cookies);
+  const [cookie, setCookie] = useState(getTokenFromCookies());
+  const [isAuthenticate, setAuth] = useState(false);
   const [userM, setUserM] = useState({});
   const containerClasses = `${styles.flexDirectionRow} ${styles.makeFlex} ${styles.h100vh} mainContainer`;
 
@@ -24,16 +25,16 @@ function App() {
     console.log("Called");
     const verifyCookie = async () => {
       let user = null;
-      if (!cookies.token) {
+      if (cookie.length == 0) {
         setAuth(false);
         console.log("Auth is false");
       }
       try {
-        if ("token" in cookies) {
+        if (cookie.length > 1) {
           const { data } = await axiosInstance.get(`/authUser`);
           if (data.status === true) {
             setAuth(true);
-            const user = await jwtDecode(cookies.token);
+            const user = await jwtDecode(cookie);
             const res = await axiosInstance.get(`/api/members/${user.id}`);
             setUserM(res.data);
             console.log("Verified");
@@ -59,7 +60,9 @@ function App() {
       <Routes>
         <Route
           path="/auth"
-          element={<AuthL isAuthenticate={isAuthenticate} />}
+          element={
+            <AuthL setCookie={setCookie} isAuthenticate={isAuthenticate} />
+          }
         ></Route>
         <Route
           path="/"
