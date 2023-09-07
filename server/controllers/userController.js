@@ -170,6 +170,7 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: false,
       domain: process.env.CLIENT_URL,
+      maxAge: 3600000,
     });
     res
       .status(201)
