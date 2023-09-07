@@ -16,9 +16,11 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
     exposedHeaders: ["Set-Cookie"],
   })
 );
+
 let privateRooms = {};
 let publicRooms = {};
 const socketIO = new Server(server, {
