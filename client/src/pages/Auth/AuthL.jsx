@@ -53,7 +53,7 @@ export default function AuthL({ isAuthenticate, user }) {
         );
         console.log(data);
       }
-      navigate("/");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
