@@ -11,7 +11,7 @@ export default function AuthL({ setCookie, isAuthenticate, user }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cookie, updateCookie] = useState(getTokenFromCookies());
+  const [cookie, updateCookie] = useState("");
   const [file, setFile] = useState(null);
   const [login, setLogin] = useState(true);
   const navigate = useNavigate();

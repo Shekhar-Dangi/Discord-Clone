@@ -3,7 +3,7 @@ import ChatBox from "./pages/ChatBox/ChatBox";
 import ChatsNav from "./pages/ChatsNav/ChatsNav";
 import QuickNav from "./pages/QuickNav/QuickNav";
 import styles from "./pages/main.module.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import jwt from "jwt-decode";
 import axiosInstance from "./axios-config.js";
@@ -20,7 +20,6 @@ function App() {
   const [isAuthenticate, setAuth] = useState(false);
   const [userM, setUserM] = useState({});
   const containerClasses = `${styles.flexDirectionRow} ${styles.makeFlex} ${styles.h100vh} mainContainer`;
-
   useEffect(() => {
     console.log("Called");
     const verifyCookie = async () => {
@@ -37,6 +36,8 @@ function App() {
             const user = await jwtDecode(cookie);
             const res = await axiosInstance.get(`/api/members/${user.id}`);
             setUserM(res.data);
+            redirect("/");
+            window.location.reload();
             console.log("Verified");
           } else {
             setAuth(false);
