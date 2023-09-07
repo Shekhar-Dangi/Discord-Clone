@@ -20,7 +20,6 @@ export default function AuthL({ setCookie, isAuthenticate, user }) {
   useEffect(() => {
     if (cookie.length > 1) {
       console.log("navigated");
-      navigate("/");
       redirect("/");
     }
   }, [cookie]);
