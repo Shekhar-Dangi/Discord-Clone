@@ -51,7 +51,9 @@ export default function AuthL({ isAuthenticate, user }) {
             withCredentials: true,
           }
         );
-        console.log(data);
+        console.log(window);
+        console.log(window.location);
+        console.log(window.location.reload(true));
       }
       setUsername("");
       setTimeout(() => {
