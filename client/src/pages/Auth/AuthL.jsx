@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Auth.module.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Background from "../../components/Background";
 import { useCookies } from "react-cookie";
 import Cookies from "js-cookie";
@@ -19,7 +19,9 @@ export default function AuthL({ isAuthenticate, user }) {
 
   useEffect(() => {
     if (cookie.length > 1) {
+      console.log("navigated");
       navigate("/");
+      redirect("/");
     }
   }, [cookie]);
 
