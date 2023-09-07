@@ -5,22 +5,23 @@ import { useNavigate } from "react-router-dom";
 import Background from "../../components/Background";
 import { useCookies } from "react-cookie";
 import Cookies from "js-cookie";
+import { getTokenFromCookies } from "../../cookieUtil";
 
 export default function AuthL({ isAuthenticate, user }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookie, updateCookie] = useState("");
   const [file, setFile] = useState(null);
   const [login, setLogin] = useState(true);
   const navigate = useNavigate();
   const [key, setKey] = useState(1);
 
   useEffect(() => {
-    if (isAuthenticate) {
+    if (cookie.length > 1) {
       navigate("/");
     }
-  }, [username]);
+  }, [cookie]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,13 +53,7 @@ export default function AuthL({ isAuthenticate, user }) {
           }
         );
       }
-      setUsername("");
-      console.log(window);
-      console.log(window.location);
-      console.log(window.location.href);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      updateCookie(getTokenFromCookies());
     } catch (error) {
       console.log(error);
     }

@@ -17,7 +17,6 @@ import { SocketProvider } from "./SocketContext.js";
 function App() {
   const [cookies, removeCookie] = useCookies([]);
   const [isAuthenticate, setAuth] = useState(!!cookies);
-
   const [userM, setUserM] = useState({});
   const containerClasses = `${styles.flexDirectionRow} ${styles.makeFlex} ${styles.h100vh} mainContainer`;
 
@@ -34,7 +33,6 @@ function App() {
           if (data.status === true) {
             setAuth(true);
             const user = await jwtDecode(cookies.token);
-            console.log(user);
             const res = await axiosInstance.get(`/api/members/${user.id}`);
             setUserM(res.data);
           } else {
