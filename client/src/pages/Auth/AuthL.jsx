@@ -51,11 +51,11 @@ export default function AuthL({ isAuthenticate, user }) {
             withCredentials: true,
           }
         );
-        console.log(window);
-        console.log(window.location);
-        console.log((window.location.href = window.location.href));
       }
       setUsername("");
+      console.log(window);
+      console.log(window.location);
+      console.log(window.location.href);
       setTimeout(() => {
         navigate("/");
       }, 2000);
