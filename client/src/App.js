@@ -53,7 +53,7 @@ function App() {
       }
     };
     verifyCookie();
-  }, [cookies]);
+  }, [cookie]);
 
   return (
     <SocketProvider>
