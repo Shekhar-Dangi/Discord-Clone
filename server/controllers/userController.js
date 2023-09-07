@@ -156,16 +156,16 @@ const loginUser = async (req, res) => {
     console.log("Request recieved");
     const { username, password } = req.body;
     if (!username || !password) {
-      return res.json({ message: "All fields are required" });
+      return res.json({ code: 0, message: "All fields are required" });
     }
     const user = await User.findOne({ username });
     if (!user) {
-      return res.json({ message: "Incorrect password or username" });
+      return res.json({ code: 0, message: "Incorrect password or username" });
     }
 
     const auth = await bcrypt.compare(password, user.password);
     if (!auth) {
-      return res.json({ message: "Incorrect password or email" });
+      return res.json({ code: 0, message: "Incorrect password or email" });
     }
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
@@ -173,9 +173,12 @@ const loginUser = async (req, res) => {
       domain: process.env.CLIENT_URL,
       maxAge: 3600000,
     });
-    res
-      .status(201)
-      .json({ message: "User logged in successfully", success: true, token });
+    res.status(201).json({
+      code: 1,
+      message: "User logged in successfully",
+      success: true,
+      token,
+    });
   } catch (error) {
     console.log(error);
   }
