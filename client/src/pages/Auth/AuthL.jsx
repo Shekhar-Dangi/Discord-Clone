@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Background from "../../components/Background";
 import { useCookies } from "react-cookie";
+import Cookies from "js-cookie";
 
 export default function AuthL({ isAuthenticate, user }) {
   const [username, setUsername] = useState("");
@@ -34,6 +35,7 @@ export default function AuthL({ isAuthenticate, user }) {
           },
           { withCredentials: true }
         );
+        Cookies.set("token", data.token, { expires: 1 });
         console.log(data);
       } else {
         const formData = new FormData();

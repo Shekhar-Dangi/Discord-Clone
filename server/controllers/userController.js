@@ -144,6 +144,7 @@ const createUser = async (req, res) => {
       message: "User signed in successfully",
       success: true,
       savedUser,
+      token,
     });
   } catch (error) {
     res.status(500).send(error);
@@ -174,7 +175,7 @@ const loginUser = async (req, res) => {
     });
     res
       .status(201)
-      .json({ message: "User logged in successfully", success: true });
+      .json({ message: "User logged in successfully", success: true, token });
   } catch (error) {
     console.log(error);
   }
