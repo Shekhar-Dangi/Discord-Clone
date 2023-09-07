@@ -6,8 +6,8 @@ export default function ProtectedRoute({ children, isAuthenticated }) {
   useEffect(() => {
     async function isAuth() {
       const { data } = await axiosInstance.get(`/authUser`);
-      return data.status;
       console.log(data.status, isAuthenticated);
+      return data.status;
     }
     setCheck(isAuthenticated ? true : isAuth());
   }, []);

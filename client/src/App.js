@@ -20,6 +20,7 @@ function App() {
   const [isAuthenticate, setAuth] = useState(getTokenFromCookies());
   const [userM, setUserM] = useState({});
   const containerClasses = `${styles.flexDirectionRow} ${styles.makeFlex} ${styles.h100vh} mainContainer`;
+  const navigate = useNavigate();
   useEffect(() => {
     console.log("Called");
     const verifyCookie = async () => {
@@ -36,7 +37,7 @@ function App() {
             const user = await jwtDecode(cookie);
             const res = await axiosInstance.get(`/api/members/${user.id}`);
             setUserM(res.data);
-            redirect("/");
+            navigate("/");
             console.log("Verified");
           } else {
             setAuth(false);
