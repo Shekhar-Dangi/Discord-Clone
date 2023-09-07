@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Redirect, redirect, Navigate } from "react-router-dom";
-
+import axiosInstance from "../../axios-config";
 export default function ProtectedRoute({ children, isAuthenticated }) {
   const [check, setCheck] = useState(false);
   useEffect(() => {
