@@ -37,7 +37,6 @@ function App() {
             const res = await axiosInstance.get(`/api/members/${user.id}`);
             setUserM(res.data);
             redirect("/");
-            window.location.reload();
             console.log("Verified");
           } else {
             setAuth(false);
