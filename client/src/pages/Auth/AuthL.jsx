@@ -39,6 +39,7 @@ export default function AuthL({ setCookie, isAuthenticate, user }) {
         );
         Cookies.set("token", data.token, { expires: 1 });
         setCookie(data.token);
+        navigate("/");
       } else {
         const formData = new FormData();
         formData.append("username", username);
@@ -54,6 +55,7 @@ export default function AuthL({ setCookie, isAuthenticate, user }) {
           }
         );
         setCookie(data.token);
+        navigate("/");
       }
       updateCookie(getTokenFromCookies());
     } catch (error) {
