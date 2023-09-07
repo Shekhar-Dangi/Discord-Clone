@@ -53,7 +53,7 @@ export default function AuthL({ isAuthenticate, user }) {
         );
         console.log(window);
         console.log(window.location);
-        console.log(window.location.reload(true));
+        console.log((window.location.href = window.location.href));
       }
       setUsername("");
       setTimeout(() => {
