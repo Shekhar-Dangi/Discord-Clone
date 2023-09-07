@@ -17,7 +17,7 @@ import { SocketProvider } from "./SocketContext.js";
 import { getTokenFromCookies } from "./cookieUtil";
 function App() {
   const [cookie, setCookie] = useState(getTokenFromCookies());
-  const [isAuthenticate, setAuth] = useState(false);
+  const [isAuthenticate, setAuth] = useState(getTokenFromCookies());
   const [userM, setUserM] = useState({});
   const containerClasses = `${styles.flexDirectionRow} ${styles.makeFlex} ${styles.h100vh} mainContainer`;
   useEffect(() => {
